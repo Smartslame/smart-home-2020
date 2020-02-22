@@ -19,16 +19,24 @@ public class DoorEventHandler implements EventHandler {
                 for (Door door : room.getDoors()) {
                     if (door.getId().equals(event.getObjectId())) {
                         if (event.getType() == DOOR_OPEN) {
-                            door.open();
-                            System.out.println("Door " + door.getId() + " in room " + room.getName() + " was opened.");
+                            handleOpenEvent(room, door);
                         } else {
-                            door.close();
-                            System.out.println("Door " + door.getId() + " in room " + room.getName() + " was closed.");
+                            handleClosedEvent(room, door);
                         }
                     }
                 }
             }
         }
+    }
+
+    private void handleClosedEvent(Room room, Door door) {
+        door.close();
+        System.out.println("Door " + door.getId() + " in room " + room.getName() + " was closed.");
+    }
+
+    private void handleOpenEvent(Room room, Door door) {
+        door.open();
+        System.out.println("Door " + door.getId() + " in room " + room.getName() + " was opened.");
     }
 
     private boolean isDoorEvent(SensorEvent event) {

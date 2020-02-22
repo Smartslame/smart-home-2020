@@ -18,16 +18,24 @@ public class LightEventHandler implements EventHandler {
                 for (Light light : room.getLights()) {
                     if (light.getId().equals(event.getObjectId())) {
                         if (event.getType() == LIGHT_ON) {
-                            light.turnOn();
-                            System.out.println("Light " + light.getId() + " in room " + room.getName() + " was turned on.");
+                            handleOnEvent(room, light);
                         } else {
-                            light.turnOff();
-                            System.out.println("Light " + light.getId() + " in room " + room.getName() + " was turned off.");
+                            handleOffEvent(room, light);
                         }
                     }
                 }
             }
         }
+    }
+
+    private void handleOffEvent(Room room, Light light) {
+        light.turnOff();
+        System.out.println("Light " + light.getId() + " in room " + room.getName() + " was turned off.");
+    }
+
+    private void handleOnEvent(Room room, Light light) {
+        light.turnOn();
+        System.out.println("Light " + light.getId() + " in room " + room.getName() + " was turned on.");
     }
 
     private boolean isLightEvent(SensorEvent event) {
