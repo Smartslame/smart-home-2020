@@ -1,5 +1,6 @@
 package ru.sbt.mipt.oop;
 
+import org.apache.log4j.Logger;
 import ru.sbt.mipt.oop.eventhandler.DoorEventHandler;
 import ru.sbt.mipt.oop.eventhandler.EventHandler;
 import ru.sbt.mipt.oop.eventhandler.HallDoorEventHandler;
@@ -14,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Application {
+    private static final Logger logger = Logger.getLogger(Application.class);
     private final SmartHomeLoader smartHomeLoader;
     private final SensorEventProvider sensorEventProvider;
     private final List<EventHandler> eventHandlers;
@@ -48,7 +50,7 @@ public class Application {
     private void runEventCycle(SmartHome smartHome) {
         SensorEvent event = sensorEventProvider.getNextSensorEvent();
         while (event != null) {
-            System.out.println("Got event: " + event);
+            logger.info("Got event: " + event);
 
             for (EventHandler handler : eventHandlers) {
                 handler.handleEvent(smartHome, event);

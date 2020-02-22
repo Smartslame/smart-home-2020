@@ -1,5 +1,6 @@
 package ru.sbt.mipt.oop.eventhandler;
 
+import org.apache.log4j.Logger;
 import ru.sbt.mipt.oop.component.Light;
 import ru.sbt.mipt.oop.component.Room;
 import ru.sbt.mipt.oop.SensorEvent;
@@ -9,6 +10,7 @@ import static ru.sbt.mipt.oop.type.SensorEventType.LIGHT_OFF;
 import static ru.sbt.mipt.oop.type.SensorEventType.LIGHT_ON;
 
 public class LightEventHandler implements EventHandler {
+    private static final Logger logger = Logger.getLogger(LightEventHandler.class);
 
     @Override
     public void handleEvent(SmartHome smartHome, SensorEvent event) {
@@ -30,12 +32,12 @@ public class LightEventHandler implements EventHandler {
 
     private void handleOffEvent(Room room, Light light) {
         light.turnOff();
-        System.out.println("Light " + light.getId() + " in room " + room.getName() + " was turned off.");
+        logger.info("Light " + light.getId() + " in room " + room.getName() + " was turned off.");
     }
 
     private void handleOnEvent(Room room, Light light) {
         light.turnOn();
-        System.out.println("Light " + light.getId() + " in room " + room.getName() + " was turned on.");
+        logger.info("Light " + light.getId() + " in room " + room.getName() + " was turned on.");
     }
 
     private boolean isLightEvent(SensorEvent event) {
