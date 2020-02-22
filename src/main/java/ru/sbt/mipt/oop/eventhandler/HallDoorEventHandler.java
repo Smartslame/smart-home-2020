@@ -17,10 +17,9 @@ public class HallDoorEventHandler implements EventHandler {
     @Override
     public void handleEvent(SmartHome smartHome, SensorEvent event) {
         if (isDoorEvent(event) && isHallDoorEvent(smartHome, event)) {
-            // событие от двери
             for (Room homeRoom : smartHome.getRooms()) {
                 for (Light light : homeRoom.getLights()) {
-                    light.setOn(false);
+                    light.turnOff();
                     SensorCommand command = new SensorCommand(CommandType.LIGHT_OFF, light.getId());
                     commandSender.sendCommand(command);
                 }
