@@ -15,9 +15,14 @@ public class SmartHomeJsonFileLoader implements SmartHomeLoader {
     }
 
     @Override
-    public SmartHome loadSmartHome() throws IOException {
+    public SmartHome loadSmartHome() {
         Gson gson = new Gson();
-        String json = new String(Files.readAllBytes(Paths.get(filename)));
+        String json;
+        try {
+            json = new String(Files.readAllBytes(Paths.get(filename)));
+        } catch (IOException e) {
+            throw new RuntimeException("Can not load smarthome from file: " + filename, e);
+        }
         return gson.fromJson(json, SmartHome.class);
     }
 }
