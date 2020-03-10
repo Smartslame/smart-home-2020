@@ -6,12 +6,11 @@ import ru.sbt.mipt.oop.component.Room;
 import ru.sbt.mipt.oop.writer.SmartHomeJsonFileWriter;
 import ru.sbt.mipt.oop.writer.SmartHomeWriter;
 
-import java.io.IOException;
 import java.util.Arrays;
 
 public class HomeBuilder {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         SmartHome smartHome = buildSmartHome();
 
         SmartHomeWriter smartHomeWriter = new SmartHomeJsonFileWriter(smartHome, "output.js");
