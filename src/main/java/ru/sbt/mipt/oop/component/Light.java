@@ -1,6 +1,9 @@
 package ru.sbt.mipt.oop.component;
 
-public class Light {
+import ru.sbt.mipt.oop.Action;
+import ru.sbt.mipt.oop.Actionable;
+
+public class Light implements Actionable {
     private boolean isOn;
     private final String id;
 
@@ -23,5 +26,10 @@ public class Light {
 
     public void turnOn() {
         isOn = true;
+    }
+
+    @Override
+    public void execute(Action action) {
+        action.accept(this);
     }
 }
