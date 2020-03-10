@@ -1,63 +1,44 @@
 package ru.sbt.mipt.oop;
 
-import org.apache.log4j.Logger;
+import java.util.Arrays;
+
 import ru.sbt.mipt.oop.eventhandler.DoorEventHandler;
-import ru.sbt.mipt.oop.eventhandler.EventHandler;
 import ru.sbt.mipt.oop.eventhandler.HallDoorEventHandler;
 import ru.sbt.mipt.oop.eventhandler.LightEventHandler;
 import ru.sbt.mipt.oop.eventprovider.RandomSensorEventProvider;
-import ru.sbt.mipt.oop.eventprovider.SensorEventProvider;
 import ru.sbt.mipt.oop.loader.SmartHomeJsonFileLoader;
 import ru.sbt.mipt.oop.loader.SmartHomeLoader;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-
 public class Application {
-    private static final Logger logger = Logger.getLogger(Application.class);
     private final SmartHomeLoader smartHomeLoader;
-    private final SensorEventProvider sensorEventProvider;
-    private final List<EventHandler> eventHandlers;
+    private final EventCycleRunner eventCycleRunner;
 
-    public Application(SmartHomeLoader smartHomeLoader, SensorEventProvider sensorEventProvider, List<EventHandler> eventHandlers) {
+    public Application(SmartHomeLoader smartHomeLoader, EventCycleRunner eventCycleRunner) {
         this.smartHomeLoader = smartHomeLoader;
-        this.sensorEventProvider = sensorEventProvider;
-        this.eventHandlers = eventHandlers;
+        this.eventCycleRunner = eventCycleRunner;
     }
 
 
-    public static void main(String... args) throws IOException {
+    public static void main(String... args) {
         new Application(
                 new SmartHomeJsonFileLoader("smart-home-1.js"),
-                new RandomSensorEventProvider(),
-                Arrays.asList(
-                        new LightEventHandler(),
-                        new DoorEventHandler(),
-                        new HallDoorEventHandler()
+                new EventCycleRunner(
+                        new RandomSensorEventProvider(),
+                        Arrays.asList(
+                                new LightEventHandler(),
+                                new DoorEventHandler(),
+                                new HallDoorEventHandler()
+                        )
                 )
         ).run();
     }
 
-    public void run() throws IOException {
+    public void run() {
         // считываем состояние дома из файла
         SmartHome smartHome = smartHomeLoader.loadSmartHome();
 
         // начинаем цикл обработки событий
-        runEventCycle(smartHome);
-    }
-
-    private void runEventCycle(SmartHome smartHome) {
-        SensorEvent event = sensorEventProvider.getNextSensorEvent();
-        while (event != null) {
-            logger.info("Got event: " + event);
-
-            for (EventHandler handler : eventHandlers) {
-                handler.handleEvent(smartHome, event);
-            }
-
-            event = sensorEventProvider.getNextSensorEvent();
-        }
+        eventCycleRunner.run(smartHome);
     }
 
 }
