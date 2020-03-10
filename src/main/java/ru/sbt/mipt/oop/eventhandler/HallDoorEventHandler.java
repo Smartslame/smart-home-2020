@@ -5,7 +5,6 @@ import ru.sbt.mipt.oop.SensorCommand;
 import ru.sbt.mipt.oop.SensorEvent;
 import ru.sbt.mipt.oop.SmartHome;
 import ru.sbt.mipt.oop.commandsender.CommandSender;
-import ru.sbt.mipt.oop.commandsender.FakeCommandSender;
 import ru.sbt.mipt.oop.component.Door;
 import ru.sbt.mipt.oop.component.Light;
 import ru.sbt.mipt.oop.component.Room;
@@ -16,7 +15,11 @@ import static ru.sbt.mipt.oop.type.SensorEventType.DOOR_OPEN;
 
 public class HallDoorEventHandler implements EventHandler {
     private static final Logger logger = Logger.getLogger(HallDoorEventHandler.class);
-    private final CommandSender commandSender = new FakeCommandSender();
+    private final CommandSender commandSender;
+
+    public HallDoorEventHandler(CommandSender commandSender) {
+        this.commandSender = commandSender;
+    }
 
     @Override
     public void handleEvent(SmartHome smartHome, SensorEvent event) {
