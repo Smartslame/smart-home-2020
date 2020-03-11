@@ -13,7 +13,7 @@ public class LightEventHandler implements EventHandler {
 
     @Override
     public void handleEvent(SmartHome smartHome, SensorEvent event) {
-        if (isLightEvent(event)) {
+        if (!isLightEvent(event)) {
             return;
         }
         // событие от источника света
