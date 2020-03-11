@@ -1,5 +1,7 @@
 package ru.sbt.mipt.oop.component;
 
+import java.util.Objects;
+
 import ru.sbt.mipt.oop.Action;
 import ru.sbt.mipt.oop.Actionable;
 
@@ -31,5 +33,19 @@ public class Door implements Actionable {
     @Override
     public void execute(Action action) {
         action.accept(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Door door = (Door) o;
+        return isOpen == door.isOpen &&
+                id.equals(door.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, isOpen);
     }
 }
