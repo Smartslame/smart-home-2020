@@ -5,6 +5,12 @@ public class Alarm {
     private String code;
     private AlarmStatusType status;
 
+    public Alarm() {
+        this.state = new DeactivatedAlarmState(this);
+        this.status = AlarmStatusType.DEACTIVATED;
+        this.code = "";
+    }
+
     public AlarmStatusType getStatus() {
         return status;
     }
