@@ -7,12 +7,12 @@ public class OnAlertModeAlarmState extends AlarmState {
     }
 
     @Override
-    public void activateAlarm(String code) {
+    public void activate(String code) {
         //already active
     }
 
     @Override
-    public void deactivateAlarm(String code) {
+    public void deactivate(String code) {
         if (alarm.getCode().equals(code)) {
             alarm.setStatus(AlarmStatusType.DEACTIVATED);
             alarm.setState(new DeactivatedAlarmState(alarm));

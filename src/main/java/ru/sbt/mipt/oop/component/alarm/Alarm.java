@@ -31,12 +31,12 @@ public class Alarm {
         this.code = code;
     }
 
-    public void activateAlarm(String code) {
-        state.activateAlarm(code);
+    public void activate(String code) {
+        state.activate(code);
     }
 
-    public void deactivateAlarm(String code) {
-        state.deactivateAlarm(code);
+    public void deactivate(String code) {
+        state.deactivate(code);
     }
 
     public void toAlertMode() {
