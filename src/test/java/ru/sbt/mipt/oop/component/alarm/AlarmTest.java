@@ -8,7 +8,7 @@ public class AlarmTest {
     @Test
     public void activateAlarmFirstTimeTest() {
         Alarm alarm = new Alarm();
-        alarm.activateAlarm("test");
+        alarm.activate("test");
 
         Assert.assertEquals(AlarmStatusType.ACTIVATED, alarm.getStatus());
     }
@@ -16,7 +16,7 @@ public class AlarmTest {
     @Test
     public void onAlertModeFromActivatedAlarmTest() {
         Alarm alarm = new Alarm();
-        alarm.activateAlarm("test");
+        alarm.activate("test");
 
         alarm.toAlertMode();
 
@@ -26,9 +26,9 @@ public class AlarmTest {
     @Test
     public void deactivateActivatedAlarmWithRightCodeTest() {
         Alarm alarm = new Alarm();
-        alarm.activateAlarm("test");
+        alarm.activate("test");
 
-        alarm.deactivateAlarm("test");
+        alarm.deactivate("test");
 
         Assert.assertEquals(AlarmStatusType.DEACTIVATED, alarm.getStatus());
     }
@@ -36,9 +36,9 @@ public class AlarmTest {
     @Test
     public void deactivateActivatedAlarmWithWrongCodeTest() {
         Alarm alarm = new Alarm();
-        alarm.activateAlarm("test");
+        alarm.activate("test");
 
-        alarm.deactivateAlarm("not_test");
+        alarm.deactivate("not_test");
 
         Assert.assertEquals(AlarmStatusType.ON_ALERT_MODE, alarm.getStatus());
     }
@@ -46,10 +46,10 @@ public class AlarmTest {
     @Test
     public void deactivateOnAlertModeAlarmWithRightCodeTest() {
         Alarm alarm = new Alarm();
-        alarm.activateAlarm("test");
+        alarm.activate("test");
         alarm.toAlertMode();
 
-        alarm.deactivateAlarm("test");
+        alarm.deactivate("test");
 
         Assert.assertEquals(AlarmStatusType.DEACTIVATED, alarm.getStatus());
     }
@@ -57,10 +57,10 @@ public class AlarmTest {
     @Test
     public void deactivateOnAlertModeAlarmWithWrongCodeTest() {
         Alarm alarm = new Alarm();
-        alarm.activateAlarm("test");
+        alarm.activate("test");
         alarm.toAlertMode();
 
-        alarm.deactivateAlarm("not_test");
+        alarm.deactivate("not_test");
 
         Assert.assertEquals(AlarmStatusType.ON_ALERT_MODE, alarm.getStatus());
     }
