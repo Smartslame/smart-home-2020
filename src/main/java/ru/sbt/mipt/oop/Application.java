@@ -21,7 +21,7 @@ public class Application {
 
     public static void main(String... args) {
         new Application(
-                new SmartHomeJsonFileLoader("smart-home-1.js"),
+                new SmartHomeJsonFileLoader("smart-home-1.json"),
                 new EventCycleRunner(
                         new RandomSensorEventProvider(),
                         Arrays.asList(

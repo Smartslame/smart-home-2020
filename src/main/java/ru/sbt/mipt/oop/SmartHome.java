@@ -4,20 +4,27 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import ru.sbt.mipt.oop.component.Room;
+import ru.sbt.mipt.oop.component.alarm.Alarm;
 
 public class SmartHome implements Actionable {
-    Collection<Room> rooms;
+    private Collection<Room> rooms;
+    private Alarm alarm;
 
     public SmartHome() {
         rooms = new ArrayList<>();
     }
 
-    public SmartHome(Collection<Room> rooms) {
+    public SmartHome(Alarm alarm, Collection<Room> rooms) {
         this.rooms = rooms;
+        this.alarm = alarm;
     }
 
     public void addRoom(Room room) {
         rooms.add(room);
+    }
+
+    public Alarm getAlarm() {
+        return alarm;
     }
 
     @Override

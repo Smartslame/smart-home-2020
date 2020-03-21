@@ -11,6 +11,7 @@ import ru.sbt.mipt.oop.SmartHome;
 import ru.sbt.mipt.oop.component.Door;
 import ru.sbt.mipt.oop.component.Light;
 import ru.sbt.mipt.oop.component.Room;
+import ru.sbt.mipt.oop.component.alarm.Alarm;
 import ru.sbt.mipt.oop.type.SensorEventType;
 
 public class HallDoorEventHandlerTest {
@@ -38,7 +39,7 @@ public class HallDoorEventHandlerTest {
                         new Door("3", true)),
                 "hall");
 
-        smartHome = new SmartHome(Arrays.asList(testRoom, hall));
+        smartHome = new SmartHome(new Alarm(), Arrays.asList(testRoom, hall));
         hallDoorEventHandler = new HallDoorEventHandler();
     }
 
