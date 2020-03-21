@@ -9,7 +9,7 @@ public class DeactivatedAlarmState extends AlarmState {
     public void activateAlarm(String code) {
         alarm.setCode(code);
         alarm.setStatus(AlarmStatusType.ACTIVATED);
-        alarm.setState(new AcivatedAlarmState(alarm));
+        alarm.setState(new ActivatedAlarmState(alarm));
     }
 
     @Override
