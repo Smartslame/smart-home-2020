@@ -1,7 +1,5 @@
 package ru.sbt.mipt.oop.eventhandler;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import org.apache.log4j.Logger;
 import ru.sbt.mipt.oop.SensorCommand;
 import ru.sbt.mipt.oop.SensorEvent;
@@ -22,10 +20,35 @@ public class HallDoorEventHandler implements EventHandler {
 
     @Override
     public void handleEvent(SmartHome smartHome, SensorEvent event) {
-        if (isDoorEvent(event) && isHallDoorEvent(smartHome, event)) {
-            if (event.getType() == DOOR_CLOSED) {
-                handleClosedEvent(smartHome);
-            }
+        if (isDoorEvent(event)) {
+            smartHome.execute(roomCandidate -> {
+                if (!(roomCandidate instanceof Room)) {
+                    return;
+                }
+
+                Room room = (Room) roomCandidate;
+
+                if (!room.getName().equals("hall")) {
+                    return;
+                }
+
+                room.execute(doorCandidate -> {
+                    if (!(doorCandidate instanceof Door)) {
+                        return;
+                    }
+                    Door door = (Door) doorCandidate;
+
+                    if (!door.getId().equals(event.getObjectId())) {
+                        return;
+                    }
+
+                    // this event is hall door event, so handle it
+                    if (event.getType() == DOOR_CLOSED) {
+                        handleClosedEvent(smartHome);
+                    }
+
+                });
+            });
         }
     }
 
@@ -49,33 +72,4 @@ public class HallDoorEventHandler implements EventHandler {
         return event.getType() == DOOR_CLOSED || event.getType() == DOOR_OPEN;
     }
 
-    private boolean isHallDoorEvent(SmartHome smartHome, SensorEvent event) {
-        AtomicBoolean isHallDoorEvent = new AtomicBoolean(false);
-
-        smartHome.execute(roomCandidate -> {
-            if (!(roomCandidate instanceof Room)) {
-                return;
-            }
-
-            Room room = (Room) roomCandidate;
-
-            if (!room.getName().equals("hall")) {
-                return;
-            }
-
-            room.execute(doorCandidate -> {
-                if (!(doorCandidate instanceof Door)) {
-                    return;
-                }
-                Door door = (Door) doorCandidate;
-
-                if (door.getId().equals(event.getObjectId())) {
-                    isHallDoorEvent.set(true);
-                }
-
-            });
-        });
-
-        return isHallDoorEvent.get();
-    }
 }
