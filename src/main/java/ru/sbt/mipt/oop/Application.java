@@ -2,9 +2,7 @@ package ru.sbt.mipt.oop;
 
 import java.util.Arrays;
 
-import ru.sbt.mipt.oop.eventhandler.DoorEventHandler;
-import ru.sbt.mipt.oop.eventhandler.HallDoorEventHandler;
-import ru.sbt.mipt.oop.eventhandler.LightEventHandler;
+import ru.sbt.mipt.oop.eventhandler.*;
 import ru.sbt.mipt.oop.eventprovider.RandomSensorEventProvider;
 import ru.sbt.mipt.oop.loader.SmartHomeJsonFileLoader;
 import ru.sbt.mipt.oop.loader.SmartHomeLoader;
@@ -25,9 +23,12 @@ public class Application {
                 new EventCycleRunner(
                         new RandomSensorEventProvider(),
                         Arrays.asList(
-                                new LightEventHandler(),
-                                new DoorEventHandler(),
-                                new HallDoorEventHandler()
+                                new SecurityEventHandlerDecorator(Arrays.asList(
+                                        new LightEventHandler(),
+                                        new DoorEventHandler(),
+                                        new HallDoorEventHandler()
+                                )),
+                                new AlarmEventHandler()
                         )
                 )
         ).run();
