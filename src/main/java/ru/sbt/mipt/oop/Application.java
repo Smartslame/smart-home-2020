@@ -1,45 +1,56 @@
 package ru.sbt.mipt.oop;
 
-import java.util.Arrays;
-
+import com.coolcompany.smarthome.events.SensorEventsManager;
+import ru.sbt.mipt.oop.adapter.CCEventHandlerAdapter;
 import ru.sbt.mipt.oop.eventhandler.*;
-import ru.sbt.mipt.oop.eventprovider.RandomSensorEventProvider;
 import ru.sbt.mipt.oop.loader.SmartHomeJsonFileLoader;
 import ru.sbt.mipt.oop.loader.SmartHomeLoader;
 
+import java.util.Arrays;
+
 public class Application {
     private final SmartHomeLoader smartHomeLoader;
-    private final EventCycleRunner eventCycleRunner;
+    private final SensorEventsManager sensorEventsManager;
 
-    public Application(SmartHomeLoader smartHomeLoader, EventCycleRunner eventCycleRunner) {
+    public Application(SmartHomeLoader smartHomeLoader, SensorEventsManager sensorEventsManager) {
         this.smartHomeLoader = smartHomeLoader;
-        this.eventCycleRunner = eventCycleRunner;
+        this.sensorEventsManager = sensorEventsManager;
     }
 
 
     public static void main(String... args) {
         new Application(
                 new SmartHomeJsonFileLoader("smart-home-1.json"),
-                new EventCycleRunner(
-                        new RandomSensorEventProvider(),
-                        Arrays.asList(
-                                new SecurityEventHandlerDecorator(Arrays.asList(
-                                        new LightEventHandler(),
-                                        new DoorEventHandler(),
-                                        new HallDoorEventHandler()
-                                )),
-                                new AlarmEventHandler()
-                        )
+                new SensorEventsManager()
+        ).configure().run();
+    }
+
+    public Application configure() {
+        SmartHome smartHome = smartHomeLoader.loadSmartHome();
+
+        sensorEventsManager.registerEventHandler(
+                new CCEventHandlerAdapter(
+                        new SecurityEventHandlerDecorator(Arrays.asList(
+                                new LightEventHandler(),
+                                new DoorEventHandler(),
+                                new HallDoorEventHandler())),
+                        smartHome
                 )
-        ).run();
+        );
+
+        sensorEventsManager.registerEventHandler(
+                new CCEventHandlerAdapter(
+                        new AlarmEventHandler(),
+                        smartHome
+                )
+        );
+
+        return this;
     }
 
     public void run() {
-        // считываем состояние дома из файла
-        SmartHome smartHome = smartHomeLoader.loadSmartHome();
-
         // начинаем цикл обработки событий
-        eventCycleRunner.run(smartHome);
+        sensorEventsManager.start();
     }
 
 }
