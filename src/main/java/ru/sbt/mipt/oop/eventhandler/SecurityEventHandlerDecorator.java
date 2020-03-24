@@ -39,7 +39,7 @@ public class SecurityEventHandlerDecorator implements EventHandler {
         }
     }
 
-    boolean isAlarmEvent(SensorEvent event) {
+    private boolean isAlarmEvent(SensorEvent event) {
         return event.getType() == SensorEventType.ALARM_DEACTIVATE || event.getType() == SensorEventType.ALARM_ACTIVATE;
     }
 }
