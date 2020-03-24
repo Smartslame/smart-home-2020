@@ -2,9 +2,11 @@ package ru.sbt.mipt.oop;
 
 import com.coolcompany.smarthome.events.SensorEventsManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.PropertySource;
 import ru.sbt.mipt.oop.adapter.CCEventHandlerAdapter;
 import ru.sbt.mipt.oop.eventhandler.EventHandler;
 import ru.sbt.mipt.oop.eventhandler.SecurityEventHandlerDecorator;
@@ -15,10 +17,11 @@ import java.util.List;
 
 @Configuration
 @Import(SpringEventHandlerConfiguration.class)
+@PropertySource("application.properties")
 public class SpringConfiguration {
     @Bean
-    public SmartHomeLoader smartHomeLoader() {
-        return new SmartHomeJsonFileLoader("smart-home-1.json");
+    public SmartHomeLoader smartHomeLoader(@Value("${smarthome.json.filename}") String filename) {
+        return new SmartHomeJsonFileLoader(filename);
     }
 
     @Bean
