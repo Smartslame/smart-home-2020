@@ -17,15 +17,15 @@ public class Alarm {
         return state instanceof OnAlertModeAlarmState;
     }
 
-    protected void setState(AlarmState state) {
+    void setState(AlarmState state) {
         this.state = state;
     }
 
-    protected String getCode() {
+    String getCode() {
         return code;
     }
 
-    protected void setCode(String code) {
+    void setCode(String code) {
         this.code = code;
     }
 
