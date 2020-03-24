@@ -1,6 +1,9 @@
 package ru.sbt.mipt.oop.component.alarm;
 
+import org.apache.log4j.Logger;
+
 public class DeactivatedAlarmState implements AlarmState {
+    private static final Logger logger = Logger.getLogger(DeactivatedAlarmState.class);
     private final Alarm alarm;
 
     public DeactivatedAlarmState(Alarm alarm) {
@@ -10,13 +13,14 @@ public class DeactivatedAlarmState implements AlarmState {
     @Override
     public void activate(String code) {
         alarm.setCode(code);
-        alarm.setStatus(AlarmStatusType.ACTIVATED);
         alarm.setState(new ActivatedAlarmState(alarm));
+        logger.info("Alarm activated.");
     }
 
     @Override
     public void deactivate(String code) {
-        //already deacivated
+        //already deactivated
+        logger.info("Alarm has been already deactivated.");
     }
 
     @Override
