@@ -3,6 +3,7 @@ package ru.sbt.mipt.oop;
 import ru.sbt.mipt.oop.component.Door;
 import ru.sbt.mipt.oop.component.Light;
 import ru.sbt.mipt.oop.component.Room;
+import ru.sbt.mipt.oop.component.alarm.Alarm;
 import ru.sbt.mipt.oop.writer.SmartHomeJsonFileWriter;
 import ru.sbt.mipt.oop.writer.SmartHomeWriter;
 
@@ -31,7 +32,7 @@ public class HomeBuilder {
         Room hall = new Room(Arrays.asList(new Light("7", false), new Light("8", false), new Light("9", false)),
                 Arrays.asList(new Door("4", false)),
                 "hall");
-        return new SmartHome(Arrays.asList(kitchen, bathroom, bedroom, hall));
+        return new SmartHome(new Alarm(), Arrays.asList(kitchen, bathroom, bedroom, hall));
     }
 
 }
