@@ -3,31 +3,29 @@ package ru.sbt.mipt.oop.component.alarm;
 public class Alarm {
     private AlarmState state;
     private String code;
-    private AlarmStatusType status;
 
     public Alarm() {
         this.state = new DeactivatedAlarmState(this);
-        this.status = AlarmStatusType.DEACTIVATED;
         this.code = "";
     }
 
-    public AlarmStatusType getStatus() {
-        return status;
+    public boolean isActivated() {
+        return !(state instanceof DeactivatedAlarmState);
     }
 
-    protected void setStatus(AlarmStatusType status) {
-        this.status = status;
+    public boolean isOnAlertMode() {
+        return state instanceof OnAlertModeAlarmState;
     }
 
-    protected void setState(AlarmState state) {
+    void setState(AlarmState state) {
         this.state = state;
     }
 
-    protected String getCode() {
+    String getCode() {
         return code;
     }
 
-    protected void setCode(String code) {
+    void setCode(String code) {
         this.code = code;
     }
 

@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import ru.sbt.mipt.oop.SensorEvent;
 import ru.sbt.mipt.oop.SmartHome;
+import ru.sbt.mipt.oop.commandsender.FakeCommandSender;
 import ru.sbt.mipt.oop.component.Door;
 import ru.sbt.mipt.oop.component.Light;
 import ru.sbt.mipt.oop.component.Room;
@@ -40,7 +41,7 @@ public class HallDoorEventHandlerTest {
                 "hall");
 
         smartHome = new SmartHome(new Alarm(), Arrays.asList(testRoom, hall));
-        hallDoorEventHandler = new HallDoorEventHandler();
+        hallDoorEventHandler = new HallDoorEventHandler(new FakeCommandSender());
     }
 
     @Test

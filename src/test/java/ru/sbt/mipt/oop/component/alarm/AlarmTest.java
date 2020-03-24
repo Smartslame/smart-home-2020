@@ -10,7 +10,7 @@ public class AlarmTest {
         Alarm alarm = new Alarm();
         alarm.activate("test");
 
-        Assert.assertEquals(AlarmStatusType.ACTIVATED, alarm.getStatus());
+        Assert.assertTrue(alarm.isActivated());
     }
 
     @Test
@@ -20,7 +20,7 @@ public class AlarmTest {
 
         alarm.toAlertMode();
 
-        Assert.assertEquals(AlarmStatusType.ON_ALERT_MODE, alarm.getStatus());
+        Assert.assertTrue(alarm.isOnAlertMode());
     }
 
     @Test
@@ -30,7 +30,7 @@ public class AlarmTest {
 
         alarm.deactivate("test");
 
-        Assert.assertEquals(AlarmStatusType.DEACTIVATED, alarm.getStatus());
+        Assert.assertFalse(alarm.isActivated());
     }
 
     @Test
@@ -40,7 +40,7 @@ public class AlarmTest {
 
         alarm.deactivate("not_test");
 
-        Assert.assertEquals(AlarmStatusType.ON_ALERT_MODE, alarm.getStatus());
+        Assert.assertTrue(alarm.isOnAlertMode());
     }
 
     @Test
@@ -51,7 +51,7 @@ public class AlarmTest {
 
         alarm.deactivate("test");
 
-        Assert.assertEquals(AlarmStatusType.DEACTIVATED, alarm.getStatus());
+        Assert.assertFalse(alarm.isActivated());
     }
 
     @Test
@@ -62,7 +62,7 @@ public class AlarmTest {
 
         alarm.deactivate("not_test");
 
-        Assert.assertEquals(AlarmStatusType.ON_ALERT_MODE, alarm.getStatus());
+        Assert.assertTrue(alarm.isOnAlertMode());
     }
 
 }
