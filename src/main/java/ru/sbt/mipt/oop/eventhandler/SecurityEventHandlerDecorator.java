@@ -18,11 +18,8 @@ public class SecurityEventHandlerDecorator implements EventHandler {
 
     @Override
     public void handleEvent(SmartHome smartHome, SensorEvent event) {
-        if (isAlarmEvent(event)) {
-            return;
-        }
 
-        if (smartHome.getAlarm().isOnAlertMode()) {
+        if (smartHome.getAlarm().isOnAlertMode() && !isAlarmEvent(event)) {
             // may be there will be some logic later
             logger.error("Sensor detection while alert mode is on.");
             logger.info("Sending sms.");
